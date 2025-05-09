@@ -18,7 +18,7 @@ func NewUserRepository(db *sql.DB) UserRepository {
 }
 
 func (r *userRepository) GetAll() ([]model.User, error) {
-	rows, err := r.db.Query("SELECT id, name FROM uers")
+	rows, err := r.db.Query("SELECT id, name FROM users")
 	if err != nil {
 		return nil, err
 	}
@@ -30,6 +30,8 @@ func (r *userRepository) GetAll() ([]model.User, error) {
 		if err := rows.Scan(&user.ID, &user.Name); err != nil {
 			return nil, err
 		}
+		users = append(users, user)
 	}
+
 	return users, nil
 }
