@@ -17,7 +17,16 @@ func main() {
 	userUC := usecase.NewUserUsecase(userRepo)
 	userHandler := handler.NewUserHandler(userUC)
 
-	http.HandleFunc("/users", userHandler.HandleGetUsers)
+	http.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			userHandler.HandleGetUsers(w, r)
+		case http.MethodPost:
+			userHandler.HandleCreateUser(w, r)
+		default:
+			w.WriteHeader(http.StatusMethodNotAllowed)
+		}
+	})
 
 	log.Printf("Server running at %s", cfg.Server.Port)
 	log.Fatal(http.ListenAndServe(cfg.Server.Port, nil))

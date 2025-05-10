@@ -7,6 +7,7 @@ import (
 
 type UserUsecase interface {
 	FetchUsers() ([]model.User, error)
+	CreateUser(user model.User) error
 }
 
 type userUsecase struct {
@@ -19,4 +20,8 @@ func NewUserUsecase(repo repository.UserRepository) UserUsecase {
 
 func (u *userUsecase) FetchUsers() ([]model.User, error) {
 	return u.repo.GetAll()
+}
+
+func (u *userUsecase) CreateUser(user model.User) error {
+	return u.repo.Insert(user)
 }

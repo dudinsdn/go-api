@@ -7,6 +7,7 @@ import (
 
 type UserRepository interface {
 	GetAll() ([]model.User, error)
+	Insert(user model.User) error
 }
 
 type userRepository struct {
@@ -34,4 +35,9 @@ func (r *userRepository) GetAll() ([]model.User, error) {
 	}
 
 	return users, nil
+}
+
+func (r *userRepository) Insert(user model.User) error {
+	_, err := r.db.Exec("INSERT INTO users (id, name) VALUES (?, ?)", user.ID, user.Name)
+	return err
 }
