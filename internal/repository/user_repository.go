@@ -24,7 +24,6 @@ func (r *userRepository) GetAll() ([]model.User, error) {
 		return nil, err
 	}
 	defer rows.Close()
-
 	var users []model.User
 	for rows.Next() {
 		var user model.User
@@ -33,7 +32,6 @@ func (r *userRepository) GetAll() ([]model.User, error) {
 		}
 		users = append(users, user)
 	}
-
 	return users, nil
 }
 
